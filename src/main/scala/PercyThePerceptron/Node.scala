@@ -3,7 +3,7 @@ package PercyThePerceptron
 import Chisel._
 import chisel3.{AsyncReset, RequireAsyncReset, withReset}
 
-class PerceptronBase(bitwidth : Int) extends Module with RequireAsyncReset{
+class Node(bitwidth : Int) extends Module with RequireAsyncReset{
   val io = IO(new Bundle {
     val value = Input(UInt(bitwidth.W))
     val weight = Input(UInt(bitwidth.W))
@@ -15,7 +15,7 @@ class PerceptronBase(bitwidth : Int) extends Module with RequireAsyncReset{
   io.out_product := register_value * register_weight
 }
 
-class Node(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
+class PerceptronBase(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
   val io = IO(new Bundle {
     val bias = Input(UInt(bitwidth.W))
     val weights = Input(Vec(nodes,UInt(bitwidth.W)))
@@ -25,7 +25,7 @@ class Node(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
 
   val delay_sync_bias = RegNext(io.bias, init=0.U)
 
-  val nodes_entities = Array.fill(nodes)(Module(new PerceptronBase(bitwidth)).io)
+  val nodes_entities = Array.fill(nodes)(Module(new Node(bitwidth)).io)
   val nodes_result = Wire(Vec(nodes,UInt(bitwidth.W)))
   val reduce_results = Wire(UInt(bitwidth.W))
   val reduce_results_added_bias = Wire(UInt(bitwidth.W))
