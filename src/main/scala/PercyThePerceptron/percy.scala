@@ -18,8 +18,6 @@ class percy(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
   io.out_data := percy.out_data
 }
 
-
-
 object percy extends App {
   (new chisel3.stage.ChiselStage).emitVerilog(new percy(bitwidth = 10, nodes = 6), Array("--target-dir", "generated"))
 }
