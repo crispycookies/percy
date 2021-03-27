@@ -11,7 +11,7 @@ class percy(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
     val out_data = Output(UInt(bitwidth.W))
   })
 
-  val percy = Module(new PerceptronBase(bitwidth,nodes)).io
+  val percy = Module(new Perceptron(bitwidth,nodes)).io
   percy.values := io.values
   percy.bias := io.bias
   percy.weights := io.weights
