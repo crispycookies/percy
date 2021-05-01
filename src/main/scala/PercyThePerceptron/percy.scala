@@ -1,7 +1,7 @@
 package PercyThePerceptron
 
 import Chisel._
-import PercyThePerceptron.Memory.{Cell, File}
+import PercyThePerceptron.Memory.{Cell, File, Controller}
 import chisel3.RequireAsyncReset
 import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
 
@@ -23,5 +23,5 @@ class percy(bitwidth: Int, nodes: Int) extends Module with RequireAsyncReset{
 object percy extends App {
   (new chisel3.stage.ChiselStage).execute(
     Array("-X", "verilog"),
-    Seq(ChiselGeneratorAnnotation(() =>new File(bit_width = 8, row_count = 5, sub_cell_count = 3))))
+    Seq(ChiselGeneratorAnnotation(() =>new Controller(bit_width = 8, row_count = 5, sub_cell_count = 3, address_bit_width = 8))))
 }
